@@ -3,9 +3,7 @@ package view;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -13,18 +11,18 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import controller.Jogador;
-import model.Dados;
 
 public class PainelOpcoes extends JPanel{
 
-	JButton jogar;
-	JButton relatorio;
-	Jogador jogador;
-	String nomeJogador;
-	PainelPontuacaoETabuleiro p;
+	private JButton jogar;
+	private JButton relatorio;
+	private Jogador jogador;
+	private String nomeJogador;
+	private Janela janela;
 
-	public PainelOpcoes() {
-
+	public PainelOpcoes(Janela janela) {
+		
+		this.janela = janela;
 		JLabel label = new JLabel("Nome: ");
 		this.add(label);
 		setBackground(Color.lightGray);
@@ -33,50 +31,34 @@ public class PainelOpcoes extends JPanel{
 		jogador = new Jogador();
 		nomeJogador = caixa.getText();
 		jogador.setNome(nomeJogador);
+		this.add(caixa);
+		juntarBotoes();
 		
 		this.setLayout(new FlowLayout());
-		p = new PainelPontuacaoETabuleiro();
-		jogar = new JButton("Jogar");
-		jogar.setBackground(Color.white);
-		jogar.addActionListener(new MostrarPainelPrincipal());
+	}
+	
+	private void juntarBotoes() {
+		jogar = criarBotaoOpcao("Jogar", new MostrarTabuleiro(janela));
+		//jogar.addActionListener(new MostrarTabuleiro(janela));
+	
+		relatorio =  criarBotaoOpcao("Relatório", new MostrarRelatorio(janela));
+		//relatorio.addActionListener(new MostrarRelatorio(janela));
 		
-		relatorio = new JButton("Relatório");
-		relatorio.setBackground(Color.white);
-		relatorio.addActionListener(new MostrarRelatorio());
-
-		this.add(caixa);
 		this.add(jogar);
 		this.add(relatorio);
-
+	}
+	
+	public JButton criarBotaoOpcao(String nome, ActionListener a) {
+		JButton botao = new JButton(nome);
+		botao.addActionListener(a);
+		botao.setBackground(Color.white);
+		return botao;
 	}
 	
 	public String getText() {
 		String s = "";
-		s += jogador.getNome()+";";
+		s += nomeJogador +";";
 		return s;
 	}
 }
 
-class MostrarPainelPrincipal implements ActionListener {
-	
-	public void actionPerformed(ActionEvent e) {
-		PainelPontuacaoETabuleiro p = new PainelPontuacaoETabuleiro();
-		PainelOpcoes po = new PainelOpcoes();
-		p.setVisible(true);
-		Dados d = new Dados();
-		File f = new File("dados");
-		d.escrever(po.getText(), f);
-		System.out.println("SOCORRO");
-	}
-}
-
-class MostrarRelatorio implements ActionListener {
-	
-	public void actionPerformed(ActionEvent e) {
-		PainelRelatorio pr = new PainelRelatorio();
-		PainelPontuacaoETabuleiro p = new PainelPontuacaoETabuleiro();
-		p.setVisible(false);
-		pr.setVisible(true);
-		System.out.println("AJUDA");
-	}
-}

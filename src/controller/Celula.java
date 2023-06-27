@@ -2,12 +2,12 @@ package controller;
 
 public class Celula {
 	
-	public int posicaoX;
-	public int posicaoY;
-	public int id;
-	public Robo robo;
-	Aluno aluno;
-	Bug bug;
+	protected int posicaoX;
+	protected int posicaoY;
+	protected int id;
+	protected Robo robo;
+	protected Aluno aluno;
+	protected Bug bug;
 	
 	public Celula(int id, int x, int y) {
 		posicaoX = x;

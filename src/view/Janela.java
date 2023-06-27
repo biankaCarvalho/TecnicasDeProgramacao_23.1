@@ -9,7 +9,9 @@ import javax.swing.JFrame;
 
 public class Janela extends JFrame{
 	
-	PainelPontuacaoETabuleiro pontTabu;
+	protected PainelPontuacaoETabuleiro pontTabu;
+	protected PainelRelatorio relatorio;
+	protected PainelOpcoes opcoes;
 	
 	public Janela() {
 		
@@ -19,14 +21,16 @@ public class Janela extends JFrame{
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		//setResizable(false);
 		setLocationRelativeTo(null);
-		PainelOpcoes opcoes = new PainelOpcoes();
+		opcoes = new PainelOpcoes(this);
 		pontTabu = new PainelPontuacaoETabuleiro();
+		relatorio = new PainelRelatorio();
 		
 		this.setLayout(new BorderLayout());
-		
+		pontTabu.setVisible(false);
+		relatorio.setVisible(false);
 		this.add(opcoes, BorderLayout.NORTH);
 		this.add(pontTabu, BorderLayout.CENTER);
-		
+				
 		setVisible(true);
 	}
 	

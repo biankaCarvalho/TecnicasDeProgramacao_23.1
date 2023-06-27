@@ -14,19 +14,16 @@ import javax.swing.JPanel;
 
 import controller.Aluno;
 import controller.Bug;
-import controller.Plano;
+import controller.Celula;
 import controller.Robo;
 
 public class PainelPontuacao extends JPanel {
 	
-	Robo robo;
+	protected Robo robo;
+	protected PainelAlunoBug painelAB;
 	
 	public PainelPontuacao() {
 		robo = new Robo();
-		JLabel label = new JLabel("   " + "Pontuação: " + robo.getPontos());
-		this.add(label);
-		setBackground(Color.lightGray);
-
 		JButton verificar = new JButton("Verificar");
 		verificar.setBackground(Color.white);
 		verificar.addActionListener(new VerificarPontuacao());
@@ -34,7 +31,7 @@ public class PainelPontuacao extends JPanel {
 		JButton sair = new JButton("Sair do Jogo");
 		sair.setBackground(Color.white);
 		sair.addActionListener(new SairdoJogo());
-
+		this.add(painelPontGeralQuantAB());
 		BotoesRobos robos = new BotoesRobos();
 		painelRobosComPontuacao();
 		this.add(robos.painelRobos);
@@ -44,6 +41,17 @@ public class PainelPontuacao extends JPanel {
 
 		this.setVisible(true);
 	}
+	
+	public JPanel painelPontGeralQuantAB() {
+		JPanel ppquantAB = new JPanel();
+		JLabel label = new JLabel("Pontuação: " + robo.getPontos());
+		painelAB = new PainelAlunoBug();
+		ppquantAB.setLayout(new GridLayout(2,1));
+		ppquantAB.add(label);
+		ppquantAB.add(painelAB);
+		ppquantAB.setBackground(Color.lightGray);
+		return ppquantAB;
+	}
 
 	public void painelRobosComPontuacao() {
 
@@ -52,11 +60,11 @@ public class PainelPontuacao extends JPanel {
 		ImageIcon robo3 = new ImageIcon(getClass().getResource("/imgs/clubPenguinEspiao5050sembg.png"));
 
 		JLabel labelR1 = new JLabel(robo1);
-		JLabel pontuacaoR1 = new JLabel(" :"+ robo.getPontos());
+		JLabel pontuacaoR1 = new JLabel(" : "+ robo.getPontos());
 		JLabel labelR2 = new JLabel(robo2);
-		JLabel pontuacaoR2 = new JLabel(" :"+ robo.getPontos());
+		JLabel pontuacaoR2 = new JLabel(" : "+ robo.getPontos());
 		JLabel labelR3 = new JLabel(robo3);
-		JLabel pontuacaoR3 = new JLabel(" :"+ robo.getPontos());
+		JLabel pontuacaoR3 = new JLabel(" : "+ robo.getPontos());
 
 		JPanel painelRobos = new JPanel();
 		painelRobos.setLayout(new FlowLayout());
@@ -87,8 +95,12 @@ class VerificarPontuacao implements ActionListener {
 		Aluno aluno = new Aluno(5);
 		Bug bug = new Bug(7);
 		Robo robo = new Robo();
-		Plano p = new Plano(8,8);
-		aluno.encontrouAluno(robo, p);
-		bug.encontrouBug(robo, p);
+		Celula c = new Celula(robo.getPosicaox(), robo.getPosicaoy());
+		
+		if(c.possuiAluno()) {
+			robo.pegouAluno(aluno);
+		} else if (c.possuiBug()) {
+			robo.pegouBug(bug);
+		}
 	}
 }

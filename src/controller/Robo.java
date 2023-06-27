@@ -1,5 +1,8 @@
 package controller;
 
+import javax.swing.JButton;
+
+import view.PainelBotoes;
 
 public class Robo {
 
@@ -10,13 +13,13 @@ public class Robo {
 	protected int posicaoy = 1;
 	protected int id;
 	protected int pontos = 0;
-	Plano plano;
-	Partida p;
+	protected PainelBotoes pb;
+	protected JButton botao;
+	protected Partida p;
 
 	public Robo(int id, String nome, Plano plano) {
 		this.id = id;
 		this.nome = nome;
-		this.plano = plano;
 
 		Celula aux = null;
 		for (int i = 0; i < plano.listaDeCelulas.size(); i++) {
@@ -27,23 +30,19 @@ public class Robo {
 		}
 	}
 	
+	public void setBotao(JButton botao) {
+        this.botao = botao;
+    }
+
 	public Robo() {
 		// TODO Auto-generated constructor stub
 	}
-
-//	public boolean verificarLimites() {
-//	    int tamanhox = plano.getTamanhoX();
-//	    int tamanhoy = plano.getTamanhoY();
-//
-//
-//	    // verificar se a posição atual do robô está dentro dos limites do plano
-//	    if (posicaox >= 0 && posicaox < tamanhox && posicaoy >= 0 && posicaoy < tamanhoy) {
-//	        return true; // posição válida
-//	    } else {
-//	        return false; // posição inválida
-//	    }
-//	}
-
+	
+	public void moverParaPosicao(int linha, int coluna) {
+		 posicaox = linha;
+		 posicaoy = coluna;
+		 
+	}
 	
 	public String getNome() {
 		return nome;
@@ -64,23 +63,15 @@ public class Robo {
 	public int getPosicaoy() {
 		return posicaoy;
 	}
-
-	public void avancar(int numCelulas) {
-		posicaox++;
-	}
-
-	public void retroceder(int numCelulas) {
-		posicaox++;
-	}
 	
 	public void pegouAluno(Aluno a) {
 		pontos += 10;
-		a.encontrouAluno(this, plano);
+		a.encontrouAluno(this);
 	}
 
 	public void pegouBug(Bug b) {
 		pontos -= 15;
-		b.encontrouBug(this, plano);
+		b.encontrouBug(this);
 	}
 		
 	public int getPontos() {
